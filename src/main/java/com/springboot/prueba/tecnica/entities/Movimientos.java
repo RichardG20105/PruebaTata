@@ -20,7 +20,7 @@ public class Movimientos {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date fecha;
 	
 	@Column(name = "tipo")
@@ -37,7 +37,6 @@ public class Movimientos {
 	}
 	
 	public Movimientos(Integer tipoMovimiento, Float valor, Float saldo, Cuenta cuenta) {
-		super();
 		this.fecha = new Date();
 		this.tipoMovimiento = tipoMovimiento;
 		this.valor = valor;
@@ -45,20 +44,20 @@ public class Movimientos {
 		this.cuenta = cuenta;
 	}
 
-
-
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
 	public Date getFecha() {
 		return fecha;
 	}
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
+	
 	public Integer getTipoMovimiento() {
 		return tipoMovimiento;
 	}

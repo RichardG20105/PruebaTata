@@ -29,6 +29,13 @@ public class MovimientoServiceImpl implements IMovimientoService {
 		Optional<Cuenta> cuenta = cuentaDao.findById(id);
 		if(cuenta.isPresent()) {
 			movimiento.setCuenta(cuenta.get());
+			if (movimiento.getFecha() == null) {
+                movimiento.setFecha(new Date());
+            }
+			Cuenta cuentaN = cuenta.get();
+			cuentaN.setSaldoInicial(cuentaN.getSaldoInicial() + (movimiento.getTipoMovimiento() == 1 ?movimiento.getValor() :-movimiento.getValor()));
+			cuentaDao.save(cuentaN);
+			movimiento.setSaldo(cuentaN.getSaldoInicial());
 			return movimientosDao.save(movimiento);
 		}
 		return null;
@@ -36,6 +43,6 @@ public class MovimientoServiceImpl implements IMovimientoService {
 
 	@Override
 	public List<Movimientos> obtenerPorClienteAndFechas(Long clientId, Date startDate, Date endDate) {
-		return movimientosDao.findByCuentaClienteIdAndFechaBetweenOrderByFechaAsc(clientId, startDate, endDate);
+		return movimientosDao.findByCuentaClienteIdAndFechaBetweenOrderByFechaDesc(clientId, startDate, endDate);
 	}
 }
